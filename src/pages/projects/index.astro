@@ -1,23 +1,87 @@
 ---
-import { projectData } from './data'
+import { getCollection } from 'astro:content'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import ListProjects from '@/components/ListProjects.vue'
+
+// Get all projects
+const allProjects = await getCollection('projects', ({ data }) => {
+  return data.draft !== true
+})
+
+// Sort by date (newest first)
+allProjects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+
+// Group projects by folder (e.g., web-development, mobile-apps, etc.)
+const groupedProjects = allProjects.reduce(
+  (acc, project) => {
+    // Extract folder name from slug (e.g., "web-development/portfolio" -> "web-development")
+    const parts = project.slug.split('/')
+    const groupName = parts.length > 1 ? parts[0] : 'Other'
+
+    if (!acc[groupName]) {
+      acc[groupName] = []
+    }
+    acc[groupName].push(project)
+    return acc
+  },
+  {} as Record<string, typeof allProjects>,
+)
+
+// Convert to array and format group names
+const projectGroups = Object.entries(groupedProjects).map(([key, projects]) => ({
+  // Convert "web-development" to "Web Development"
+  title: key
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' '),
+  projects: projects.map((project) => ({
+    tags: project.data.tags,
+    text: project.data.title,
+    description: project.data.description,
+    href: `/projects/${project.slug}`,
+  })),
+}))
 ---
 
 <BaseLayout title="Projects" description="List of projects that I am proud of">
   <h1 class="mb-10 text-title">Projects</h1>
   <div mb-16 sm:mb-24>
     {
-      projectData.length > 0 && (
+      projectGroups.length > 0 && (
         <div>
-          {projectData.map((i) => (
+          {projectGroups.map((group) => (
             <div mb-10>
               <h2 class="select-none relative h20 pointer-events-none">
                 <span class="text-3.2em color-transparent font-bold text-stroke-1.5 text-stroke-hex-aaa op35 dark:op20 absolute top-0">
-                  {i.title}
+                  {group.title}
                 </span>
               </h2>
-              <ListProjects list={i.projects} />
+              <div class="grid gap-4 md:grid-cols-2">
+                {group.projects.map((project) => (
+                  <a
+                    href={project.href}
+                    class="block p-4 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors no-underline"
+                  >
+                    <div class="flex items-start">
+                      <div class="flex-1 min-w-0">
+                        {/* Title */}
+                        <h3 class="m-0 text-lg font-semibold">{project.text}</h3>
+
+                        {/* Tags */}
+                        {project.tags && project.tags.length > 0 && (
+                          <div class="flex flex-wrap gap-2 my-2">
+                            {project.tags.map((tag) => (
+                              <span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-800 text-xs">{tag}</span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Description */}
+                        <p class="m-0 text-sm op-70 line-clamp-5">{project.description}</p>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
           ))}
         </div>

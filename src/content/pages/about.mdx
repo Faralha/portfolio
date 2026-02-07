@@ -1,0 +1,29 @@
+---
+title: About Me
+carousel:
+  folder: /about
+  height: 500px
+---
+
+import { siteConfig } from '@/site-config'
+
+## Muhammad Zufar Al Hafidz
+Is my formal Name. I began my programming journey back in 2021, creating my own Discord Bot using Youtube Tutorials. Since then, countless  projects have been made, from basic landing page to full-stack website (mainly Nuxt + NestJS).
+
+I am a self-taught programmer, until i began my Compsci degree at ITS, Surabaya. My first (frontend) framework interest was Nuxt + Vue, but nowadays i'm also capable of using Next + React too.
+
+Currently as stated before, i'm an Undergraduate Informatics Engineering Student at Institut Teknologi Sepuluh Nopember (ITS) Surabaya, batch 2023. On free time, i usually create mini projects such as imagebox for my manga website. Read more about my projects on the [Projects Page](/projects).
+
+My hobby is to procasinate, watching [Anime](https://myanimelist.net/profile/Faralha) (not anymore), and create mini projects.
+
+Find Me on
+<p class="flex gap-x-4 gap-y-2 flex-wrap">
+  {
+    siteConfig.socialLinks.map((link) => (
+      <a aria-label={link.text} href={link.href} target="_blank" class="prose-link">
+        <i class:list={[link.icon]} />
+        {link.text}
+      </a>
+    ))
+  }
+</p>

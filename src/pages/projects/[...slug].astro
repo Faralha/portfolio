@@ -1,0 +1,126 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import ImageCarousel from '@/components/ImageCarousel.vue'
+import { getImagesFromFolder } from '@/utils/images'
+import { Image } from 'astro:assets'
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => {
+    return data.draft !== true
+  })
+
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }))
+}
+
+type Props = {
+  project: CollectionEntry<'projects'>
+}
+
+const { project } = Astro.props
+const { Content } = await project.render()
+
+const { title, description, date, github, demo, tags, image, carousel } = project.data
+
+// Auto-load images if carousel.folder is defined but carousel.images is not
+let carouselImages: string[] = []
+if (carousel?.folder) {
+  carouselImages = carousel.images || getImagesFromFolder(carousel.folder)
+}
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <article class="prose">
+    <!-- Header -->
+    <div class="mb-4">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-1 text-sm op-50 hover:op-100 transition-opacity mb-2 no-underline"
+      >
+        <div class="i-carbon-arrow-left"></div>
+        <span>Back to Projects</span>
+      </a>
+
+      <!-- Image (optional) - only show if carousel doesn't exist -->
+      {
+        image && !carousel?.folder && (
+          <Image
+            src={image.src}
+            alt={image.alt || title}
+            class="w-full max-h-100 overflow-hidden rounded-lg object-cover mb-6"
+            width="800"
+            height="200"
+          />
+        )
+      }
+
+      <!-- Carousel (optional) - takes priority over image -->
+      {
+        carousel && carousel.folder && carouselImages.length > 0 && (
+          <div class="-mx-4 md:mx-0 mb-8">
+            <ImageCarousel
+              folder={carousel.folder}
+              images={carouselImages}
+              height={carousel.height || '600px'}
+              autoplay={carousel.autoplay !== false}
+              autoplayInterval={carousel.autoplayInterval || 5000}
+              client:load
+            />
+          </div>
+        )
+      }
+
+      <!-- Title & Description -->
+      <div>
+        <h1 class="!m-0 !mb-2">{title}</h1>
+        <p class="!m-0 op-70 text-lg">{description}</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4 text-sm op-70 mb-4">
+        <time datetime={date} class="shrink-0">{date}</time>
+        {
+          tags && tags.length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-800 rounded whitespace-nowrap">{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <div class="flex gap-3">
+        {
+          github && (
+            <a
+              aria-label="GitHub Repository"
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="prose-link pb-2"
+            >
+              <i class="i-lucide-github" />
+              GitHub
+            </a>
+          )
+        }
+        {
+          demo && (
+            <a aria-label="Site Demo" href={demo} target="_blank" rel="noopener noreferrer" class="prose-link pb-2">
+              <i class="i-lucide-external-link" />
+              Live Demo
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="project-content">
+      <Content components={{ ImageCarousel }} />
+    </div>
+  </article>
+</BaseLayout>

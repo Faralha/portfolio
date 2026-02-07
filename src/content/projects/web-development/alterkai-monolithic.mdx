@@ -1,0 +1,31 @@
+---
+title: Alterkai - Monolithic
+description: Manga reading full with CMS features built using monolithic architecture (Nuxt + PostgreSQL).
+date: 2025-07-22
+github: https://github.com/Alterkai/monolithic
+tags: [Nuxt.js, TypeScript, PostgreSQL, Redis]
+draft: false
+---
+
+## Overview
+A Fullstack manga reading website, full with features. A Successor to [alterkai-website](https://github.com/Alterkai/alterkai-website), hence why it's called Alterkai v2 (Codename: Monolithic). Powered by Nuxt 3, PostgreSQL, and Redis.
+
+I used monolithic because i don't want to be bothered with deploying multiple services that time. I also want to try Nuxt 3's new server engine (Nitro) that said to be able to handle backend logic as well.
+
+> It is great, but i just don't like the file-based routing for backend... The dir, is a mess...
+
+## Features
+- User Authentication using JWT token 
+- Manga, Chapters, Genres, Bookmarks Management (CRUD)
+- Last read tracking using local storage
+- Manga and Chapter view tracking using Redis
+- Random Daily Highlights using PostgreSQL's RANDOM (+keys so random stays the same for a day)
+- Basic Comments
+- CDN using Azure Blob storage
+
+## Stories Behind
+After learning "Pembelajaran Web" (Web Development) course, i wanted to create another project based on Nuxt. This time, i (again) wanted to create my long-awaited dream of creating manga reading website. Thus, Alterkai: Monolithic is born.
+
+Alterkai: Monolithic takes a lot of reference to [MangaDex](https://mangadex.org).
+
+This project is marked as Inactive (and scraped), since i have moved to microservice-based project with the same goal named: KomikDex. The newer one will feature much cleaner codebase, docker support, and better architecture.

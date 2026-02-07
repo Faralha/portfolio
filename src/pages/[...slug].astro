@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import ImageCarousel from '@/components/ImageCarousel.vue'
+import { getImagesFromFolder } from '@/utils/images'
 import type { CollectionPages } from '@/types'
 
 export async function getStaticPaths() {
@@ -16,16 +18,36 @@ export async function getStaticPaths() {
 type Props = { page: CollectionPages }
 
 const { page } = Astro.props
-const { title, description, image } = page.data
+const { title, description, image, carousel } = page.data
 
 const { Content } = await page.render()
+
+// Auto-load images if carousel.folder is defined but carousel.images is not
+let carouselImages: string[] = []
+if (carousel?.folder) {
+  carouselImages = carousel.images || getImagesFromFolder(carousel.folder)
+}
 ---
 
 <BaseLayout title={title} description={description}>
   <article class="prose">
     <h1>{title}</h1>
     {
-      image && (
+      carousel && carousel.folder && carouselImages.length > 0 && (
+        <div class="-mx-4 md:mx-0 mb-8">
+          <ImageCarousel
+            folder={carousel.folder}
+            images={carouselImages}
+            height={carousel.height || '600px'}
+            autoplay={carousel.autoplay !== false}
+            autoplayInterval={carousel.autoplayInterval || 5000}
+            client:load
+          />
+        </div>
+      )
+    }
+    {
+      image && !carousel?.folder && (
         <p>
           <img width="640" height="360" src={image.src} alt={image.alt || ''} />
         </p>

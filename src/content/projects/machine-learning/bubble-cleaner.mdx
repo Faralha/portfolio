@@ -1,0 +1,32 @@
+---
+title: Manga Bubble Cleaner
+description: Yet Another (Fast) Bubble Cleaner using segmented YOLOv11 for high acccuracy while maintaining inference speed.
+date: 2025-07-25
+github: https://github.com/Faralha/Bubble-Cleaner
+tags: [Machine Learning, YOLOv11, Image Processing, Python]
+image:
+  src: /projects/bubble-cleaner/demo.webp
+  alt: Manga Bubble Cleaner Demo
+draft: false
+---
+
+## Overview
+Bubble Cleaner for manga using the YOLOv11-segmented model, optimized for faster and lighter inference while maintaining high detection accuracy. A GPU isn't needed (Just CPU is enough!).
+
+The main inspiration was from [Not Another Bubble Cleaner](https://github.com/LiteralGenie/NotAnotherBubbleCleaner). But the inference was too slow and heavy, as it uses Mask-RCNN, a quite outdated technology. We want an accurate detection, but we also want it fast. Thus we uses YOLOv11-segmented. It is quick, light, and (mostly) accurate.
+
+This project started as a final assignment for my Machine Learning course. While brainstorming, i was thinking, "Why dont we just make a tool to help clean manga bubbles?" cause i myself is a Scanlator and i know how tedious bubble cleaning can be. So, here we are.
+
+This is a team project consists of me, [Razky](https://github.com/yuusha25), and Praja.
+
+## How It Works (oversimplified)
+1. It first detects a bubble using YOLOv11-segmented model.
+2. Then, it creates a mask from the detected bubble and applies inpainting using OpenCV to remove the bubble.
+3. Finally, it saves the cleaned image to the output folder.
+
+## What's Next?
+- Improve detection accuracy
+- Custom mask offset
+- A GUI interface...?
+
+This project is currently inactive and unmaintained. Feel free to fork and improve it, or whatever :)

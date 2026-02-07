@@ -1,0 +1,33 @@
+---
+title: BunnyCDN Imagebox
+description: A (not simple) imagebox GUI using BunnyCDN. The idea is to easily upload images, and generate <img> tags from it.
+date: 2024-09-22
+github: https://github.com/Faralha/BunnyCDN-ImageBox
+tags: [Express.js, BunnyCDN]
+image:
+  src: /projects/bunnycdn-imagebox/index.png
+  alt: BunnyCDN Imagebox Dashboard
+carousel:
+  folder: /projects/bunnycdn-imagebox
+  height: 300px
+draft: false
+---
+
+## Overview
+A BunnyCDN unofficial Web Interface to ease with image hosting (imgBox like). The idea is to directly upload image(s) and get the link tag.
+
+## Features
+- Retrieve Folders from BunnyCDN Storage Zone
+- Upload Image(s) to selected Folder
+- Generate & Copy `<img>` tag for uploaded image(s)
+
+## Tech Stack
+- **Backend**: Express.js
+- **BunnyCDN Storage Zone API**
+
+## Stories Behind
+As you may know, i have a scanlation website [Alterkai](https://alterkaiscans.my.id). But the image hosting still uses free could-lose-anytime providers that directly gives `<img>` tags. I could just use normal CDN (in this case: BunnyCDN), but they don't provide interface to automatically upload AND generate `<img>` tags directly. So then i made this App. 
+
+It was vibe-coded though, and the code itself is quite ~sh*t~ i must admit.
+
+> I mean, why did i make such simple job using Express.js??? 🤣

@@ -1,65 +1,72 @@
 ---
+import { getCollection } from 'astro:content'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import siteConfig from '@/site-config'
+import TechStackCarousel from '@/components/TechStackCarousel.vue'
+import ProjectHighlights from '@/components/ProjectHighlights.vue'
+
+// Define project slugs to highlight (cuma slug saja!)
+const highlightedProjectSlugs = [
+  'web-development/hcq-lms',
+  'web-development/hmtc-2025',
+  'web-development/alterkai-monolithic',
+  'web-development/tropicasweets',
+  // Tambahkan slug project lain di sini
+]
+
+// Fetch all projects
+const allProjects = await getCollection('projects', ({ data }) => data.draft !== true)
+
+// Get highlighted projects data based on slugs
+const highlightedProjects = highlightedProjectSlugs
+  .map((slug) => {
+    const project = allProjects.find((p) => p.slug === slug)
+    if (!project) return null
+
+    return {
+      text: project.data.title,
+      description: project.data.description,
+      href: `/projects/${project.slug}`,
+      tags: project.data.tags,
+    }
+  })
+  .filter((p) => p !== null) // Remove projects that weren't found
 ---
 
 <BaseLayout description={siteConfig.description}>
   <article class="prose">
-    <h1 class="text-title">Vitesse theme</h1>
-    <p>Vitesse theme for Astro, supports Vue and UnoCSS.</p>
+    <!-- Introduction and Hero -->
+    <h1>
+      Crafting <span class="text-blue">scalable</span> backends with NestJS,
+      <span class="text-blue">reactive</span> frontends with Vue, and <span class="text-blue">automated</span> deployments
+      with Docker.
+    </h1>
     <p>
-      A minimal, SEO-riendly portfolio and blog theme for Astro. It's inspired by <a
-        target="_blank"
-        href="https://antfu.me">antfu.me</a
-      >.
+      Hi, nice to meet you! My name is <span class="text-blue text-2xl font-semibold">Muhammad Zufar Al Hafidz</span>. I
+      specialize in building <span class="text-blue font-semibold">fullstack</span> applications and <span
+        class="text-blue font-semibold">deployments</span
+      >
+      (CI/CD). Read more about me at <a href="/about">About Me</a>.
     </p>
-    <p>
-      <img width="640" height="360" src="/hero.jpg" alt="Hero Image" />
+
+    <!-- Skillset -->
+    <TechStackCarousel client:load />
+  </article>
+
+  <!-- Project Highlights (outside prose) -->
+  <div class="mb-16">
+    <h2 class="text-3xl font-bold mb-6">Project Highlights</h2>
+    <ProjectHighlights projects={highlightedProjects} client:load />
+    <p class="text-center mt-6">
+      <a href="/projects" class="text-blue hover:underline">View all projects →</a>
     </p>
-    <p>
-      Based on first principles thinking, and you can also see from the picture
-      <sup>👆</sup>, the goal of this theme is to
-      <b>make complex things as simple as possible</b>
-      . So, the core of this theme is the content, and the other elements are just auxiliary.
-    </p>
-    <p>Here are the features you don't need to worry about:</p>
-    <ul>
-      <li>100 / 100 Lighthouse performance</li>
-      <li>Responsive</li>
-      <li>SEO-friendly</li>
-      <li>Light / Dark Theme</li>
-      <li>Markdown support</li>
-      <li>
-        <a target="_blank" href="https://mdxjs.com/">MDX</a>
-        (components in your markdown) support
-      </li>
-      <li>
-        <a target="_blank" href="https://vuejs.org/">Vue</a>
-        SFC component support
-      </li>
-      <li>Auto generated sitemap and RSS Feed</li>
-      <li>
-        <a target="_blank" href="https://vueuse.org/">VueUse</a>
-        &
-        <a target="_blank" href="https://lodash.com/">Lodash</a>
-        support
-      </li>
-    </ul>
-    <p>
-      By the way, this theme use the <a target="_blank" href="https://unocss.dev/">UnoCSS</a> for style, it's fast.
-    </p>
-    <p>
-      Visit it
-      <a target="_blank" href="https://github.com/kieranwv/astro-theme-vitesse"> on GitHub </a>
-      to fork the repository, read the docs or one-click deploy on Netlify.
-    </p>
-    <p>
-      If you like Vitesse theme for Astro, please
-      <a target="_blank" href="https://github.com/kieranwv"> click follow </a>
-      for me.
-    </p>
+  </div>
+
+  <article class="prose">
+    <!-- Contacts -->
     <hr class="hr-line" />
-    <p>Find me on</p>
+    <h2>Contacts</h2>
+    <p>Want to get in touch? Find me on</p>
     <p class="flex gap-x-4 gap-y-2 flex-wrap">
       {
         siteConfig.socialLinks.map((link) => (
@@ -70,11 +77,6 @@ import siteConfig from '@/site-config'
         ))
       }
     </p>
-    <p>
-      If you have any questions, please email me at
-      <a prose-link aria-label={siteConfig.email} href={`mailto:${siteConfig.email}`}>
-        {siteConfig.email}
-      </a>.
-    </p>
+    <p>I always welcome any opportunities to collaborate or chat!</p>
   </article>
 </BaseLayout>

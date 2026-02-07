@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import siteConfig from '@/site-config'
-import { getLinkTarget } from '@/utils/link'
 import { useWindowScroll } from '@vueuse/core'
 import { computed, onMounted, ref, unref } from 'vue'
+import siteConfig from '@/site-config'
+import { getLinkTarget } from '@/utils/link'
 import ThemeToggle from './ThemeToggle.vue'
 
 const navLinks = siteConfig.header.navLinks || []
@@ -82,7 +82,13 @@ function toggleNavDrawer() {
   >
     <div class="flex items-center h-full">
       <a href="/" mr-6 aria-label="Header Logo Image">
-        <img width="32" height="32" :src="siteConfig.header.logo.src" :alt="siteConfig.header.logo.alt">
+        <img
+          width="32"
+          height="32"
+          :src="siteConfig.header.logo.src"
+          :alt="siteConfig.header.logo.alt"
+          class="logo-image"
+        >
       </a>
       <nav class="sm:flex hidden flex-wrap gap-x-6 position-initial flex-row">
         <a
@@ -121,6 +127,16 @@ function toggleNavDrawer() {
 </template>
 
 <style scoped>
+.logo-image {
+  /* Invert logo color in light mode (SVG putih jadi hitam) */
+  filter: brightness(0) saturate(100%);
+}
+
+html.dark .logo-image {
+  /* Keep original white color in dark mode */
+  filter: none;
+}
+
 .header-hide {
   transform: translateY(-100%);
   transition: transform 0.4s ease;

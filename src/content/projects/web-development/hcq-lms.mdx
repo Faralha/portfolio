@@ -1,0 +1,48 @@
+---
+title: Halaqoh Cinta Qur'an LMS
+description: Learning Management System featuring course management, attendance, tuition tracking, and automatic report generation using Nuxt + NestJS, fully integrated with CI/CD pipelines.
+date: 2026-01-07
+demo: https://hcq.my.id
+tags: [Nuxt.js, NestJS, TypeScript, PostgreSQL, Docker]
+image:
+  src: /projects/hcq-lms/dashboard.webp
+  alt: Halaqoh Cinta Qur'an LMS Dashboard
+carousel:
+  folder: /projects/hcq-lms
+  height: 500px
+draft: false
+---
+
+## Overview
+A Full Stack Learning Management System using Microservices architecture, and fully integrated with automated CI/CD pipelines using Github Actions and Docker. I'm gonna be honest; i'm using **AI assisted tools** to help develop this one. But i assure you, this is unlike any other ~AI Slop~ vibe-coded applications. I personally design the architecture, applied best practice (modularity, separation of concerns, scalability, CI/CD, etc), and wrote the bootstrapping code myself.
+
+> This project(s) is a proof that AI assisted development can and will be the future, while also using best practices and solid architecture as human developers. AI is merely a tool to boost productivity. If the application turns out bad, welp, it's the Developer's fault 🤣.
+
+I learnt a lot from this projects; how to design a system from zero, how to properly deploy a javascript applications to a server, how to setup CI/CD pipelines, and many more...
+
+Unfortunately, this project is not yet needed by the Organizations. If by the time reading this and the demo site is down, you know why :).
+
+## Features
+- Full Authentication System with Role-Based Access Control (Admin, Teachers, Students)
+- Teacher Registration using magic link via email
+- Classroom Management (Semesters, Course, Class, Enrollments)
+- Attendance System using Code
+- Tuition and Salary Management
+- Automatic Report Generation (PDF) server-side
+
+## Tech Stack
+- **Frontend**: Nuxt.js 4 + Nuxt UI + TailwindCSS
+- **Backend**: NestJS
+- **Database**: PostgreSQL
+- **Message Queue**: BullMQ + Redis
+
+## Architecture and Why
+- **Docker**: More secure, easier to maintain, zero downtime deployment
+- *Microservices*: Separation of concerns, easier to scale and deploy
+- **Event-driven Message Queue**: Decoupled services, better performance for tasks like report generation
+
+## CI/CD pipelines
+- Automated testing (lint, unit, e2e) on pre-commit and pull requests
+- Automated Docker image build on push to main branch
+- Automated deployment to production server using Docker Compose
+
