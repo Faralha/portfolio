@@ -1,0 +1,36 @@
+---
+title: Lab MCI - DevOps Engineer
+description: From a Kerja Praktik building CI/CD DevSecOps from scratch to running the lab's deployment platform, taking projects from manual, non-Docker deploys to automated Docker-based production.
+date: 2026-02-09
+tags: [GitLab CI, Docker, DevSecOps, Cloudflare Tunnel, Linux]
+draft: false
+---
+
+## Overview
+Since 9 February 2026 I have been the DevOps engineer at Lab MCI (Laboratorium Manajemen Cerdas Informasi), Informatics Department, ITS. It started as my 3-to-4-month Kerja Praktik (internship) and continued afterwards, alongside my final project. The lab runs most of its applications on a single on-premise server, with many developers working on several projects in parallel.
+
+My job is to take their projects from nothing (often no Docker at all) to production with fully automated, Docker-based CI/CD.
+
+## Phase 1: CI/CD DevSecOps (Kerja Praktik)
+Designed and implemented an on-premise CI/CD infrastructure that the lab's developers can reuse:
+
+- GitLab Runners on two servers and a reusable `.gitlab-ci.yml` template with build, test, scan, and deploy stages.
+- Security scanning shifted left into every pipeline: secret scanning (TruffleHog), SAST (Semgrep, SonarQube), and filesystem and container scanning (Trivy).
+- Developer tooling for the lab: it-tools, Docmost (knowledge base), and Hoppscotch.
+- Evaluated on a real lab project against ISO/IEC 25010 (security and reliability): the pipeline caught 5 third-party dependency vulnerabilities and completed in about 5 minutes end to end.
+
+## Phase 2: Deployment platform
+After the pilot, I moved on to a shared deployment platform for the whole lab:
+
+- A central deploy engine and a shared CI component, so each repository only declares a small manifest instead of carrying its own deploy script.
+- An isolated Docker network per project and environment (staging and production), with ingress through Cloudflare Tunnel.
+- Images stored in the GitLab Container Registry, deployed blue/green with health checks.
+- Migrated projects onto it, including a full production cutover of the multi-repository CoBEST system with its database restored and verified.
+- Published developer documentation for the platform.
+
+[DataDock](/projects/devops/datadock) came out of this work too: the self-service database platform that removed the most repetitive requests from my queue.
+
+## Tech Stack
+GitLab CI/CD, GitLab Runner, Docker, Docker Compose, Cloudflare Tunnel, nginx, SonarQube, Trivy, Semgrep, TruffleHog, Linux
+
+Status: ongoing.

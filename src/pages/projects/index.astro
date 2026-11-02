@@ -26,20 +26,34 @@ const groupedProjects = allProjects.reduce(
   {} as Record<string, typeof allProjects>,
 )
 
+// Folders listed here come first, in this order; any other folder follows
+const groupOrder = ['devops', 'web-development']
+// Folder names that need a title different from the capitalized default
+const groupTitles: Record<string, string> = { devops: 'DevOps' }
+
+const rank = (key: string) => {
+  const idx = groupOrder.indexOf(key)
+  return idx === -1 ? groupOrder.length : idx
+}
+
 // Convert to array and format group names
-const projectGroups = Object.entries(groupedProjects).map(([key, projects]) => ({
-  // Convert "web-development" to "Web Development"
-  title: key
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' '),
-  projects: projects.map((project) => ({
-    tags: project.data.tags,
-    text: project.data.title,
-    description: project.data.description,
-    href: `/projects/${project.slug}`,
-  })),
-}))
+const projectGroups = Object.entries(groupedProjects)
+  .sort(([a], [b]) => rank(a) - rank(b))
+  .map(([key, projects]) => ({
+    // Convert "web-development" to "Web Development"
+    title:
+      groupTitles[key] ??
+      key
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' '),
+    projects: projects.map((project) => ({
+      tags: project.data.tags,
+      text: project.data.title,
+      description: project.data.description,
+      href: `/projects/${project.slug}`,
+    })),
+  }))
 ---
 
 <BaseLayout title="Projects" description="List of projects that I am proud of">

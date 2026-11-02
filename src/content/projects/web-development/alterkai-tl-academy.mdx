@@ -1,0 +1,31 @@
+---
+title: Alterkai TL Academy
+description: An Indonesian-language learning site that teaches newcomers how to scanlate, with step-by-step guides per role, concrete examples, and browser-saved progress.
+date: 2026-10-26
+github: https://github.com/Faralha/Alterkai-TL-Academy
+demo: https://academy.alterkaiscans.my.id
+tags: [Astro, Starlight, TypeScript, Vercel]
+draft: false
+---
+
+## Overview
+A website built entirely to educate newbies into scanlation. Each guide explains a role with easy-to-understand text and image examples. It is available in Indonesian only.
+
+## Features
+- A short history of scanlation and what the work involves.
+- Guides for every role: translate, typeset, clean, redraw, and quality control.
+- A role summary (difficulty, time, file format) and Do / Don't columns on every tutorial.
+- Progress tracking: mark a tutorial as done, saved in your own browser.
+- A calm "reading mode" for long tutorials.
+
+## Stories Behind
+I have been a scanlator long enough to know how much newcomers struggle to find a clear starting point. This site is the answer I wish I had: one place with the whole workflow.
+
+It has been evolving since 2024. The latest rounds moved it to **Astro 7 and Starlight**, rewrote the tutorial pages in a concise, consistent voice with a written content style guide, and patched dependencies. The site also supports multi-domain builds with matching SEO (`.com` and `.my.id`).
+
+Anyone can contribute a tutorial in plain Markdown, no JavaScript needed.
+
+## Tech Stack
+- **Framework**: Astro 7 + Starlight
+- **Content**: Markdown and MDX with custom `RoleSpec` and `DoDont` components
+- **Hosting**: Vercel

@@ -1,0 +1,26 @@
+---
+title: HMTC 2026 Website
+description: Official HMTC website for the 2026 cabinet, built with Next.js and a Directus CMS so the next team can update content without touching code.
+date: 2026-11-02
+github: https://github.com/HMTCITS/hmtc-frontend-2026
+demo: https://hmtc-its.com
+tags: [Next.js, TypeScript, Directus, Docker, CI/CD]
+draft: false
+---
+
+## Overview
+The 2026 iteration of the HMTC website. I contribute as a developer and, as Head of the IT Development bureau (see [HMTC - Head of IT Development](/projects/devops/hmtc-deployment)), I also set the direction and handle how it ships.
+
+The repository carries history from earlier cabinets, so it has many contributors. My own work here goes back to the performance work I started on the 2025 version.
+
+## What I Did
+- **Directus CMS integration.** Audited the site, planned and applied the Directus schema migrations (page identity, grants, nullability, slugs, singletons), and wrote the CMS contract and decision records so the next cabinet can take over.
+- **Gallery.** Dynamic gallery carousel that fills its images from Directus assets.
+- **Developer experience and CI.** Conventional Commits enforced by Husky and commitlint, linting and tests, and CI that installs with a pinned pnpm and a frozen lockfile.
+- **Deployment.** Docker image shipped through the pipeline described in my HMTC infrastructure work, with uptime monitoring behind the status badges in the README.
+
+## Tech Stack
+- **Framework**: Next.js, TypeScript
+- **CMS**: Directus
+- **Tooling**: pnpm, Husky, commitlint, ESLint, Jest
+- **Deployment**: Docker, GitHub Actions
